@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="answer-container">
+        <h2>{{ answer.question.title }}</h2>
+        
+        <div class="answer mt-3">
+            <p>{{ answer.content }}</p>
+            <small class="text-muted">
+                Answered by {{ answer.owner.username }} • {{ answer.created_at|date:"M d, Y" }}
+            </small>
+        </div>
+
+        {% if user == answer.owner %}
+        <div class="mt-3">
+            <a href="{% url 'answer-update' answer.pk %}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{% url 'answer-delete' answer.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'question-detail' answer.question.pk %}" class="btn btn-secondary">Back to Question</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

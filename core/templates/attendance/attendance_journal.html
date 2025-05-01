@@ -1,0 +1,492 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load attendance_tags %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-warning">
+            <i class="fas fa-calendar-check me-2"></i>Weekly Attendance Journal
+        </h1>
+        <div class="btn-group">
+            <button class="btn btn-info me-2">
+                <i class="fas fa-download me-2"></i>Export
+            </button>
+            <button id="newWeekBtn" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>New Week
+            </button>
+        </div>
+    </div>
+
+    <div class="weeks-container">
+        {% for week in weeks %}
+        <div class="week-section">
+            <button class="week-toggle" data-bs-toggle="collapse" data-bs-target="#week{{ week.number }}">
+                <span class="week-title">Week {{ week.number }}</span>
+                <span class="week-dates text-muted">
+                    {{ week.dates.0|date:"d.m.Y" }} - {{ week.dates.4|date:"d.m.Y" }}
+                </span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="week{{ week.number }}" class="collapse">
+                <div class="table-responsive p-3">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="min-width: 250px;">STUDENTS</th>
+                                {% for date in week.dates %}
+                                <th class="text-center" style="min-width: 150px;">
+                                    <div class="text-info">{{ date|date:"d.m.Y" }}</div>
+                                    <div>
+                                        <small class="text-muted">Att</small>
+                                        <small class="text-muted ms-2">Reason</small>
+                                    </div>
+                                </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="me-2">{{ forloop.counter }}.</span>
+                                        {{ student.user.get_full_name }}
+                                    </div>
+                                </td>
+                                {% for date in week.dates %}
+                                <td>
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <button class="btn btn-link text-info p-0 attendance-reason-btn" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#reasonModal"
+                                                data-date="{{ date|date:'Y-m-d' }}"
+                                                data-student-id="{{ student.id }}"
+                                                data-student-name="{{ student.user.get_full_name }}">
+                                            <i class="fas fa-comment"></i>
+                                        </button>
+                                        <div class="form-check">
+                                            <input type="checkbox" 
+                                                   class="form-check-input attendance-checkbox" 
+                                                   data-date="{{ date|date:'Y-m-d' }}"
+                                                   data-student-id="{{ student.id }}"
+                                                   {% with student_records=attendance_records|get_attendance:student.id %}
+                                                   {% with record=student_records|get_record_for_date:date %}
+                                                   {% if record.is_present %}checked{% endif %}
+                                                   {% endwith %}
+                                                   {% endwith %}>
+                                        </div>
+                                    </div>
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Reason Modal -->
+<div class="modal fade" id="reasonModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title">Comment Student</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reasonForm">
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Reason</label>
+                        <textarea class="form-control bg-dark text-light" 
+                                id="reason" 
+                                rows="3" 
+                                placeholder="Enter reason for absence"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lateMinutes" class="form-label">Late Minutes</label>
+                        <input type="number" 
+                               class="form-control bg-dark text-light" 
+                               id="lateMinutes" 
+                               min="0" 
+                               value="0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveReason">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <div class="card bg-dark">
+        <div class="card-header">
+            <h4 class="text-warning mb-0">
+                <i class="fas fa-chart-bar me-2"></i>
+                Student Attendance Statistics
+            </h4>
+        </div>
+        <div class="card-body">
+            <canvas id="attendanceChart" height="100"></canvas>
+        </div>
+    </div>
+</div>
+
+<style>
+.weeks-container {
+    background: rgba(13, 17, 23, 0.95);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.week-section {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.week-section:last-child {
+    border-bottom: none;
+}
+
+.week-toggle {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: rgba(13, 17, 23, 0.95);
+    border: none;
+    color: var(--starlight);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.week-toggle:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.week-title {
+    font-family: var(--primary-font);
+    font-size: 1.1rem;
+    color: var(--divine-gold);
+    letter-spacing: 1px;
+}
+
+.week-toggle .fa-chevron-down {
+    transition: transform 0.3s ease;
+}
+
+.week-toggle[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.collapse {
+    background: rgba(13, 17, 23, 0.5);
+}
+
+.collapse.show {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.attendance-reason-btn {
+    transition: transform 0.2s;
+}
+
+.attendance-reason-btn:hover {
+    transform: scale(1.2);
+}
+
+.modal-content {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-control {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--divine-gold);
+    box-shadow: 0 0 0 0.25rem rgba(251, 191, 36, 0.25);
+}
+
+.card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 2rem;
+    height: 400px;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // New Week button handler
+    const newWeekBtn = document.getElementById('newWeekBtn');
+    
+    newWeekBtn.addEventListener('click', async function() {
+        try {
+            newWeekBtn.disabled = true;
+            newWeekBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
+            
+            const response = await fetch('{% url "create-new-week" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                throw new Error(data.message || 'Failed to create new week');
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        } finally {
+            newWeekBtn.disabled = false;
+            newWeekBtn.innerHTML = '<i class="fas fa-plus me-2"></i>New Week';
+        }
+    });
+
+    // Collapse animation handler
+    document.querySelectorAll('.week-toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('aria-expanded') === 'true';
+            document.querySelectorAll('.week-toggle[aria-expanded="true"]').forEach(expandedBtn => {
+                if (expandedBtn !== this) {
+                    expandedBtn.click();
+                }
+            });
+        });
+    });
+
+    const reasonModal = document.getElementById('reasonModal');
+    const reasonForm = document.getElementById('reasonForm');
+    const saveReasonBtn = document.getElementById('saveReason');
+    let currentStudentId = null;
+    let currentDate = null;
+
+    // Handle opening the modal
+    document.querySelectorAll('.attendance-reason-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            currentStudentId = this.dataset.studentId;
+            currentDate = this.dataset.date;
+            
+            // Get existing record if any
+            fetch(`/api/attendance/get-record/?student_id=${currentStudentId}&date=${currentDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('reason').value = data.reason || '';
+                    document.getElementById('lateMinutes').value = data.late_minutes || 0;
+                });
+        });
+    });
+
+    // Handle saving the reason
+    saveReasonBtn.addEventListener('click', async function() {
+        const reason = document.getElementById('reason').value;
+        const lateMinutes = document.getElementById('lateMinutes').value;
+
+        try {
+            const response = await fetch('/api/attendance/update-reason/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    student_id: currentStudentId,
+                    date: currentDate,
+                    reason: reason,
+                    late_minutes: lateMinutes
+                })
+            });
+
+            if (response.ok) {
+                const modal = bootstrap.Modal.getInstance(reasonModal);
+                modal.hide();
+                
+                // Update UI to show reason was saved
+                const btn = document.querySelector(`.attendance-reason-btn[data-student-id="${currentStudentId}"][data-date="${currentDate}"]`);
+                if (reason) {
+                    btn.classList.add('text-warning');
+                } else {
+                    btn.classList.remove('text-warning');
+                }
+            } else {
+                throw new Error('Failed to save reason');
+            }
+        } catch (error) {
+            alert('Error saving reason: ' + error.message);
+        }
+    });
+
+    // Clear form when modal is closed
+    reasonModal.addEventListener('hidden.bs.modal', function() {
+        reasonForm.reset();
+    });
+
+    // Add this new section for handling attendance checkboxes
+    document.querySelectorAll('.attendance-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', async function() {
+            const studentId = this.dataset.studentId;
+            const date = this.dataset.date;
+            const isPresent = this.checked;
+
+            try {
+                const response = await fetch('/api/attendance/update-attendance/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        student_id: studentId,
+                        date: date,
+                        is_present: isPresent
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update attendance');
+                }
+
+                // Update the chart after successful attendance update
+                updateAttendanceChart();
+
+            } catch (error) {
+                alert('Error updating attendance: ' + error.message);
+                // Revert checkbox state on error
+                this.checked = !this.checked;
+            }
+        });
+    });
+
+    // Function to update the attendance chart
+    async function updateAttendanceChart() {
+        try {
+            const response = await fetch('/api/attendance/get-statistics/');
+            const stats = await response.json();
+            
+            attendanceChart.data.labels = stats.labels;
+            attendanceChart.data.datasets = stats.datasets;
+            attendanceChart.update();
+        } catch (error) {
+            console.error('Error updating chart:', error);
+        }
+    }
+
+    const stats = {{ attendance_stats|safe }};
+    
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: stats.labels,
+            datasets: stats.datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: '#fff',
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: '#fff'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+});
+</script>
+
+<!-- Register View -->
+<script>
+class RegisterView extends View {
+    async post(request) {
+        try {
+            const response = await fetch('/api/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    username: request.POST['username'],
+                    email: request.POST['email'],
+                    password: request.POST['password']
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert('Registration successful');
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Registration failed');
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    }
+}
+</script>
+
+<!-- UserProfile Model -->
+<script>
+from django.contrib.auth.models import User
+from django.db import models
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
+    # Add this check before creating a new profile
+    if UserProfile.objects.filter(user_id=user.id).exists():
+        raise ValueError("Profile already exists for this user")
+    # other fields...
+</script>
+{% endblock %}

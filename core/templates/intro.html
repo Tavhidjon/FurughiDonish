@@ -1,0 +1,828 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to FurughiDonish - Smart Learning Platform{% endblock %}
+
+{% block content %}
+<!-- Ethereal Hero Section -->
+<section class="hero-section position-relative overflow-hidden" style="background: linear-gradient(135deg, #f8f9ff, #e6f0ff, #f0f4ff);">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="display-4 fw-bold mb-4 text-dark">Learn Smarter with <span class="text-gradient">FurughiDonish</span></h1>
+                <p class="lead mb-5 text-muted">
+                    The intelligent learning platform that adapts to your pace and style. Master any subject with our personalized approach.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                    <a href="{% url 'lesson-list' %}" class="btn btn-primary btn-lg px-4 shadow-sm hover-transform divine-pulse">
+                        <i class="fas fa-book-open me-2"></i>Explore Courses
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg px-4 hover-transform">
+                        <i class="fas fa-user-graduate me-2"></i>Join Free
+                    </a>
+                </div>
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start mt-4">
+                    <div class="avatar-group me-3">
+                        <div class="avatar-wrapper">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="avatar" alt="Student">
+                            <div class="avatar-halo"></div>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop" class="avatar" alt="Student">
+                            <div class="avatar-halo"></div>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=100&h=100&fit=crop" class="avatar" alt="Student">
+                            <div class="avatar-halo"></div>
+                        </div>
+                    </div>
+                    <span class="text-muted small">Join <span class="fw-bold">10,000+</span> enlightened learners</span>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="hero-image-container position-relative">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                         class="img-fluid rounded-4 shadow-lg floating-animation" 
+                         alt="Students learning with FurughiDonish">
+                    <div class="floating-badge bg-white text-primary shadow-sm divine-glow">
+                        <i class="fas fa-star me-1"></i>4.9/5 Rating
+                    </div>
+                    <div class="floating-icons">
+                        <i class="floating-icon fas fa-atom"></i>
+                        <i class="floating-icon fas fa-book"></i>
+                        <i class="floating-icon fas fa-lightbulb"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Celestial Wave Background -->
+    <div class="wave-animation">
+        <svg class="position-absolute bottom-0 start-0 w-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#ffffff" fill-opacity="0.9" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- Divine Learning Paths Section -->
+<section class="py-5 position-relative">
+    <div class="celestial-orbs">
+        <div class="celestial-orb orb-1"></div>
+        <div class="celestial-orb orb-2"></div>
+        <div class="celestial-orb orb-3"></div>
+    </div>
+    
+    <div class="container position-relative">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Personalized Learning Paths</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                Discover courses tailored to your goals and learning style. Our AI adapts to your progress.
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Math Path -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm hover-transform celestial-card">
+                    <div class="card-img-top position-relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             class="img-fluid" 
+                             alt="Mathematics learning path">
+                        <div class="category-badge bg-primary text-white celestial-badge">
+                            <i class="fas fa-square-root-alt me-1"></i> Math
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Master Mathematics</h5>
+                        <p class="card-text text-muted">From algebra to calculus, build strong foundations.</p>
+                        <div class="progress mb-3 celestial-progress" style="height: 6px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;"></div>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-primary stretched-link celestial-btn">
+                            Continue Learning <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Science Path -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm hover-transform celestial-card">
+                    <div class="card-img-top position-relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             class="img-fluid" 
+                             alt="Science learning path">
+                        <div class="category-badge bg-success text-white celestial-badge">
+                            <i class="fas fa-atom me-1"></i> Science
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Explore Sciences</h5>
+                        <p class="card-text text-muted">Physics, chemistry, biology - discover them all.</p>
+                        <div class="progress mb-3 celestial-progress" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 65%;"></div>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-success stretched-link celestial-btn">
+                            Continue Learning <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Languages Path -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm hover-transform celestial-card">
+                    <div class="card-img-top position-relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1503252947848-7338d3f92f31?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             class="img-fluid" 
+                             alt="Languages learning path">
+                        <div class="category-badge bg-info text-white celestial-badge">
+                            <i class="fas fa-language me-1"></i> Languages
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Learn New Languages</h5>
+                        <p class="card-text text-muted">Spanish, French, Mandarin - speak with confidence.</p>
+                        <div class="progress mb-3 celestial-progress" style="height: 6px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 40%;"></div>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-info stretched-link celestial-btn">
+                            Continue Learning <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Coding Path -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm hover-transform celestial-card">
+                    <div class="card-img-top position-relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                             class="img-fluid" 
+                             alt="Coding learning path">
+                        <div class="category-badge bg-warning text-white celestial-badge">
+                            <i class="fas fa-code me-1"></i> Coding
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Build Tech Skills</h5>
+                        <p class="card-text text-muted">Python, JavaScript, and more - start coding today.</p>
+                        <div class="progress mb-3 celestial-progress" style="height: 6px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 80%;"></div>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-warning stretched-link celestial-btn">
+                            Continue Learning <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'lesson-list' %}" class="btn btn-outline-primary btn-lg px-4 hover-transform">
+                <i class="fas fa-search me-2"></i>Browse All Courses
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Angelic Features Section -->
+<section class="py-5 bg-light position-relative">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                         class="img-fluid rounded-4 shadow floating-animation" 
+                         alt="FurughiDonish features">
+                    <div class="floating-icons">
+                        <i class="floating-icon fas fa-brain"></i>
+                        <i class="floating-icon fas fa-chart-line"></i>
+                        <i class="floating-icon fas fa-trophy"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold mb-4">Why FurughiDonish Works</h2>
+                
+                <div class="feature-item d-flex mb-4 celestial-feature">
+                    <div class="feature-icon bg-primary bg-opacity-10 text-primary rounded-3 p-3 me-4 celestial-icon">
+                        <i class="fas fa-brain fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">Adaptive Learning</h5>
+                        <p class="text-muted mb-0">Our system adjusts difficulty based on your performance to optimize learning.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item d-flex mb-4 celestial-feature">
+                    <div class="feature-icon bg-success bg-opacity-10 text-success rounded-3 p-3 me-4 celestial-icon">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">Progress Tracking</h5>
+                        <p class="text-muted mb-0">Visualize your improvement with detailed analytics and reports.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item d-flex mb-4 celestial-feature">
+                    <div class="feature-icon bg-info bg-opacity-10 text-info rounded-3 p-3 me-4 celestial-icon">
+                        <i class="fas fa-trophy fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">Gamification</h5>
+                        <p class="text-muted mb-0">Earn badges and rewards to stay motivated throughout your journey.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item d-flex celestial-feature">
+                    <div class="feature-icon bg-warning bg-opacity-10 text-warning rounded-3 p-3 me-4 celestial-icon">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold">Community Support</h5>
+                        <p class="text-muted mb-0">Connect with peers and tutors for collaborative learning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Divine Testimonials Section -->
+<section class="py-5 position-relative">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Success Stories</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                Don't just take our word for it. Here's what our students say about FurughiDonish.
+            </p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 celestial-testimonial">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="position-relative me-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&fit=facearea&facepad=2" 
+                                 class="rounded-circle" width="60" alt="Student">
+                            <div class="testimonial-halo"></div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Muhammad Samiev</h5>
+                            <small class="text-muted">Math Student</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "FurughiDonish completely transformed how I learn math. The personalized lessons helped me understand concepts that always confused me in class."
+                    </p>
+                    <div class="text-warning mt-2 celestial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 celestial-testimonial">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="position-relative me-3">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&fit=facearea&facepad=2" 
+                                 class="rounded-circle" width="60" alt="Student">
+                            <div class="testimonial-halo"></div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Shirin Kholova</h5>
+                            <small class="text-muted">Language Learner</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">
+                        "After trying multiple language apps, FurughiDonish was the first that actually helped me become conversational in Spanish."
+                    </p>
+                    <div class="text-warning mt-2 celestial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Heavenly CTA Section -->
+<section class="py-5 bg-primary text-white position-relative overflow-hidden celestial-cta">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="display-5 fw-bold mb-4">Ready to Transform Your Learning?</h2>
+                <p class="lead mb-5 opacity-75">
+                    Join thousands of students who are achieving their goals with FurughiDonish. Start your free trial today.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4 hover-transform divine-pulse">
+                        <i class="fas fa-rocket me-2"></i>Start Free Trial
+                    </a>
+                    <a href="{% url 'lesson-list' %}" class="btn btn-outline-light btn-lg px-4 hover-transform">
+                        <i class="fas fa-book me-2"></i>Explore Courses
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Celestial Elements -->
+    <div class="celestial-orbs">
+        <div class="celestial-orb orb-4"></div>
+        <div class="celestial-orb orb-5"></div>
+    </div>
+    <div class="floating-icons">
+        <i class="floating-icon fas fa-atom"></i>
+        <i class="floating-icon fas fa-book-open"></i>
+        <i class="floating-icon fas fa-lightbulb"></i>
+    </div>
+</section>
+
+<style>
+/* Celestial Color Scheme */
+:root {
+    --primary-gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+    --light-bg: #f8f9ff;
+    --celestial-blue: #a7c7ff;
+    --divine-gold: #ffd700;
+    --heavenly-white: #f8f9ff;
+    --ethereal-teal: #00e5ff;
+    --angelic-pink: #ff6b9d;
+    --celestial-glow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.text-gradient {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+}
+
+/* Hero Section Enhancements */
+.hero-section {
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9ff, #e6f0ff, #f0f4ff);
+}
+
+.hero-image-container {
+    position: relative;
+    z-index: 1;
+}
+
+.avatar-group {
+    display: flex;
+    position: relative;
+}
+
+.avatar-wrapper {
+    position: relative;
+    margin-right: -15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.avatar-halo {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-wrapper:hover .avatar-halo {
+    opacity: 1;
+}
+
+.avatar:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 3;
+}
+
+.floating-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+    z-index: 3;
+}
+
+.divine-glow {
+    box-shadow: var(--celestial-glow);
+}
+
+.floating-icons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.floating-icon {
+    position: absolute;
+    font-size: 1.5rem;
+    color: rgba(255, 215, 0, 0.5);
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-icon:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-icon:nth-child(2) {
+    top: 60%;
+    left: 80%;
+    animation-delay: 2s;
+}
+
+.floating-icon:nth-child(3) {
+    top: 40%;
+    left: 30%;
+    animation-delay: 4s;
+}
+
+.celestial-orbs {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.celestial-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.orb-1 {
+    width: 300px;
+    height: 300px;
+    background: var(--celestial-blue);
+    top: -100px;
+    left: -100px;
+    animation: float 15s infinite ease-in-out;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--ethereal-teal);
+    bottom: -150px;
+    right: -100px;
+    animation: float 20s infinite ease-in-out reverse;
+}
+
+.orb-3 {
+    width: 250px;
+    height: 250px;
+    background: var(--angelic-pink);
+    top: 50%;
+    left: 30%;
+    animation: float 18s 5s infinite ease-in-out;
+}
+
+.orb-4 {
+    width: 200px;
+    height: 200px;
+    background: var(--divine-gold);
+    top: 20%;
+    right: 10%;
+    animation: float 12s infinite ease-in-out;
+}
+
+.orb-5 {
+    width: 350px;
+    height: 350px;
+    background: var(--angelic-pink);
+    bottom: -50px;
+    left: 20%;
+    animation: float 25s infinite ease-in-out reverse;
+}
+
+.category-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.celestial-badge {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.celestial-card:hover .celestial-badge {
+    transform: translateY(-5px) scale(1.1);
+}
+
+.celestial-progress {
+    background: rgba(0,0,0,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.celestial-progress .progress-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+.celestial-progress .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: progressShine 2s infinite;
+}
+
+.celestial-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.celestial-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: all 0.5s ease;
+}
+
+.celestial-btn:hover::after {
+    left: 100%;
+}
+
+.feature-icon {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.celestial-icon {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.celestial-feature:hover .celestial-icon {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.hover-transform {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-transform:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+.divine-pulse {
+    animation: pulse 2s infinite;
+}
+
+.floating-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+.wave-animation path {
+    animation: wave 8s linear infinite;
+}
+
+.celestial-testimonial {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.celestial-testimonial::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--celestial-blue), var(--ethereal-teal));
+}
+
+.testimonial-halo {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+    z-index: -1;
+}
+
+.celestial-stars i {
+    transition: transform 0.3s ease;
+}
+
+.celestial-stars:hover i {
+    transform: scale(1.2) rotate(15deg);
+}
+
+.celestial-cta {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animations */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes wave {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Card styling */
+.card {
+    border: none;
+    background: white;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.card:hover::after {
+    transform: translateX(100%);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        text-align: center;
+        padding: 4rem 0;
+    }
+    
+    .hero-image-container {
+        margin-top: 2rem;
+    }
+    
+    .feature-item {
+        margin-bottom: 1.5rem;
+    }
+    
+    .celestial-orbs {
+        display: none;
+    }
+}
+</style>
+
+<!-- Light/Dark Mode Toggle -->
+<div class="mode-toggle position-fixed bottom-0 end-0 m-3">
+    <button id="toggle-dark-mode" class="btn btn-primary btn-sm shadow-sm rounded-pill px-3 py-2 divine-pulse">
+        <i class="fas fa-moon me-1"></i> Dark Mode
+    </button>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize AOS (Animate on Scroll)
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+    });
+
+    // Dark Mode Toggle
+    const toggleButton = document.getElementById('toggle-dark-mode');
+    const body = document.body;
+    
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        body.classList.add('dark-mode');
+        toggleButton.innerHTML = '<i class="fas fa-sun me-1"></i> Light Mode';
+    }
+    
+    toggleButton.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('darkMode', 'enabled');
+            toggleButton.innerHTML = '<i class="fas fa-sun me-1"></i> Light Mode';
+        } else {
+            localStorage.removeItem('darkMode');
+            toggleButton.innerHTML = '<i class="fas fa-moon me-1"></i> Dark Mode';
+        }
+    });
+
+    // Initialize floating icons animation
+    document.querySelectorAll('.floating-icon').forEach(icon => {
+        const duration = 6 + Math.random() * 6;
+        const delay = Math.random() * 6;
+        icon.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+    });
+</script>
+
+<style>
+    /* Dark Mode Styles */
+    .dark-mode {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+    
+    .dark-mode .bg-light {
+        background-color: #1e1e1e !important;
+    }
+    
+    .dark-mode .card {
+        background-color: #1e1e1e;
+        border-color: #333;
+    }
+    
+    .dark-mode .text-muted {
+        color: #aaa !important;
+    }
+    
+    .dark-mode .btn-outline-primary {
+        border-color: #666;
+        color: #ddd;
+    }
+    
+    .dark-mode .btn-outline-primary:hover {
+        background-color: #333;
+        color: #fff;
+    }
+</style>
+{% endblock %}

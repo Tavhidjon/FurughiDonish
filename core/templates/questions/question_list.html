@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Questions{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Questions</h1>
+            {% if user.is_authenticated %}
+            <a href="{% url 'question-create' %}" class="btn btn-primary">Ask Question</a>
+            {% endif %}
+        </div>
+
+        {% include 'components/search_bar.html' with placeholder='Search questions...' %}
+
+        <div class="list-group">
+            {% for question in questions %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h5><a href="{% url 'question-detail' question.pk %}">{{ question.title }}</a></h5>
+                        <p class="mb-1">{{ question.body|truncatewords:30 }}</p>
+                        <small class="text-muted">
+                            Asked by {{ question.user.username }} on {{ question.created_at|date:"M d, Y" }}
+                            {% if question.tags %}
+                            | Tags: {{ question.tags }}
+                            {% endif %}
+                        </small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">
+                        {{ question.answers.count }} answers
+                    </span>
+                </div>
+                {% if user == question.user %}
+                <div class="mt-2">
+                    <a href="{% url 'question-update' question.pk %}" class="btn btn-sm btn-info">Edit</a>
+                    <a href="{% url 'question-delete' question.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>No questions found matching your search.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

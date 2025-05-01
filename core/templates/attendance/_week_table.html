@@ -1,0 +1,60 @@
+<div class="table-responsive p-3">
+    <table class="table table-dark table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col" style="min-width: 250px;">STUDENTS</th>
+                {% for i in "12345"|make_list %}
+                <th class="text-center" style="min-width: 100px;">
+                    <div class="text-info">{{ forloop.counter }}.{{ week_number }}.2025</div>
+                    <div>
+                        <small class="text-muted">Att</small>
+                        <small class="text-muted ms-2">Score</small>
+                    </div>
+                </th>
+                {% endfor %}
+                <th class="text-center bg-dark">
+                    <div class="text-warning">END OF WEEK</div>
+                    <div>
+                        <small class="text-muted">Bonus</small>
+                        <small class="text-muted ms-2">Exam</small>
+                        <small class="text-muted ms-2">Sum</small>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">{{ forloop.counter }}.</span>
+                        {{ student.user.get_full_name }}
+                    </div>
+                </td>
+                {% for day in "12345"|make_list %}
+                <td>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="form-check me-2">
+                            <input type="checkbox" class="form-check-input">
+                        </div>
+                        <select class="form-select form-select-sm bg-dark text-light" style="width: 70px;">
+                            <option value="">-</option>
+                            {% for i in "012345"|make_list %}
+                            <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </td>
+                {% endfor %}
+                <td class="bg-dark">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <input type="number" class="form-control form-control-sm bg-dark text-light" style="width: 60px;" placeholder="Bonus">
+                        <input type="number" class="form-control form-control-sm bg-dark text-light" style="width: 60px;" placeholder="Exam">
+                        <span class="badge bg-success">0</span>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

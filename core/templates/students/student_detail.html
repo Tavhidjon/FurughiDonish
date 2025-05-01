@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card bg-dark shadow-lg">
+        <div class="card-header bg-gradient position-relative">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-warning mb-0">
+                    <i class="fas fa-user me-2"></i>{{ student.user.get_full_name }}
+                </h2>
+                <div>
+                    <a href="{% url 'student-update' student.pk %}" class="btn btn-primary btn-sm me-2">
+                        <i class="fas fa-edit me-1"></i>Edit
+                    </a>
+                    <a href="{% url 'student-list' %}" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-arrow-left me-1"></i>Back
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="info-section">
+                        <h4 class="text-info mb-4">Personal Information</h4>
+                        <div class="info-item">
+                            <label class="text-muted">Student ID</label>
+                            <p class="text-light">{{ student.student_id }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label class="text-muted">Full Name</label>
+                            <p class="text-light">{{ student.user.get_full_name }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label class="text-muted">Email</label>
+                            <p class="text-light">{{ student.user.email }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label class="text-muted">Date of Birth</label>
+                            <p class="text-light">{{ student.date_of_birth|date:"F d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="info-section">
+                        <h4 class="text-info mb-4">Academic Information</h4>
+                        <div class="info-item">
+                            <label class="text-muted">Grade Level</label>
+                            <p class="text-light">{{ student.get_grade_level_display }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label class="text-muted">Phone</label>
+                            <p class="text-light">{{ student.phone_number|default:"Not provided" }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label class="text-muted">Address</label>
+                            <p class="text-light">{{ student.address|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    background: rgba(13, 17, 23, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #4b0082, #9400d3) !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+}
+
+.info-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    height: 100%;
+}
+
+.info-item {
+    margin-bottom: 1.5rem;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.info-item p {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.text-info {
+    color: var(--divine-gold) !important;
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.text-light {
+    color: #e6e6e6 !important;
+}
+</style>
+{% endblock %}

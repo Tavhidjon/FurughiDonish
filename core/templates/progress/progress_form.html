@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Progress{% endblock %}
+
+{% block content %}
+<style>
+    .progress-form-container {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .form-card {
+        background: white;
+        border: none;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+    
+    .form-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-title {
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 1.5rem;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        color: #34495e;
+        font-weight: 500;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border: 2px solid #e0e6ed;
+        border-radius: 8px;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.25);
+    }
+    
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(52,152,219,0.4);
+    }
+    
+    .btn-secondary {
+        background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        border: none;
+    }
+    
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(127,140,141,0.4);
+    }
+    
+    .alert-danger {
+        border-radius: 8px;
+        border-left: 4px solid #e74c3c;
+    }
+    
+    .help-text {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+
+    .success-animation {
+        animation: successPulse 0.5s ease;
+    }
+
+    @keyframes successPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="progress-form-container">
+            <h1 class="text-center mb-4">Update Progress</h1>
+            <div class="card form-card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ progress.lesson.topic }}</h5>
+                    
+                    <form method="post" id="progressForm">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-4">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% if field.errors %}
+                            <div class="alert alert-danger mt-2">
+                                {{ field.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Update Progress</button>
+                            <a href="{% url 'progress-list' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('progressForm').addEventListener('submit', function(e) {
+    const submitButton = this.querySelector('button[type="submit"]');
+    submitButton.classList.add('success-animation');
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+});
+
+// Enhance form controls with animation
+document.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('focus', function() {
+        this.closest('.mb-4').style.transform = 'translateX(5px)';
+    });
+    
+    input.addEventListener('blur', function() {
+        this.closest('.mb-4').style.transform = 'translateX(0);
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,1051 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Enchanting Hero Section -->
+<div class="hero-section">
+  <div class="hero-background">
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+    </div>
+    <div class="gradient-overlay"></div>
+  </div>
+  
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="magic-text">Unlock</span> Your 
+            <span class="creative-underline">Potential</span>
+          </h1>
+          <p class="hero-subtitle">
+            Immerse yourself in beautifully crafted lessons that make learning irresistible
+          </p>
+          <div class="hero-cta">
+            {% if user.is_staff %}
+            <a href="{% url 'lesson-create' %}" class="btn btn-magic">
+              <i class="fas fa-magic me-2"></i>Create Magic
+            </a>
+            {% endif %}
+            <a href="#lessons" class="btn btn-ghost">
+              <i class="fas fa-compass me-2"></i>Explore
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" 
+               alt="Happy learners" 
+               class="hero-image">
+          <div class="image-reflection"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enchanted Search Section -->
+<div class="search-section">
+  <div class="container">
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="lessonSearch" placeholder="Discover knowledge...">
+        <button class="search-button" onclick="searchLessons()">
+          <span>Explore</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+      <div class="search-tags">
+        <div class="tag-bubble">Mathematics</div>
+        <div class="tag-bubble">Science</div>
+        <div class="tag-bubble">Literature</div>
+        <div class="tag-bubble">History</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mesmerizing Lessons Grid -->
+<div class="lessons-section" id="lessons">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="section-highlight">My</span> Lessons
+      </h2>
+      <p class="section-subtitle">
+        Curated educational experiences
+      </p>
+    </div>
+    
+    <div class="lessons-grid">
+      {% for lesson in lessons %}
+      <div class="lesson-card">
+        <div class="card-header">
+          <h3 class="card-title">
+            <a href="{% url 'lesson-detail' lesson.id %}">{{ lesson.title }}</a>
+          </h3>
+        </div>
+        
+        <div class="card-body">
+          <p class="card-text">{{ lesson.description|truncatewords:20 }}</p>
+        </div>
+        
+        <div class="card-footer">
+          <a href="{% url 'lesson-detail' lesson.id %}" class="btn btn-card">
+            <i class="fas fa-book-reader me-2"></i>View Lesson
+          </a>
+          {% if user.is_staff %}
+          <div class="admin-actions">
+            <a href="{% url 'lesson-update' lesson.id %}" class="action-btn">
+              <i class="fas fa-edit"></i>
+            </a>
+            <a href="{% url 'lesson-delete' lesson.id %}" class="action-btn">
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">
+        <h3>No Lessons Yet</h3>
+        <p>Start creating your first lesson</p>
+        {% if user.is_staff %}
+        <a href="{% url 'lesson-create' %}" class="btn btn-magic">
+          <i class="fas fa-plus me-2"></i>Create First Lesson
+        </a>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Learning Paths Gallery -->
+<div class="paths-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="section-highlight">Learning</span> Journeys
+      </h2>
+      <p class="section-subtitle">
+        Structured paths to mastery
+      </p>
+    </div>
+    
+    <div class="paths-gallery">
+      <div class="path-card">
+        <div class="path-image">
+          <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1422&q=80" 
+               alt="Science path">
+          <div class="path-overlay">
+            <span class="path-level beginner">Beginner</span>
+          </div>
+        </div>
+        <div class="path-content">
+          <h3>Scientific Discovery</h3>
+          <p>Unravel the mysteries of the natural world</p>
+          <div class="path-meta">
+            <span><i class="fas fa-book"></i> 12 Lessons</span>
+            <span><i class="fas fa-clock"></i> 8 Weeks</span>
+          </div>
+          <button class="btn btn-path">Begin Path</button>
+        </div>
+      </div>
+      
+      <div class="path-card">
+        <div class="path-image">
+          <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+               alt="Math path">
+          <div class="path-overlay">
+            <span class="path-level intermediate">Intermediate</span>
+          </div>
+        </div>
+        <div class="path-content">
+          <h3>Mathematical Thinking</h3>
+          <p>Develop powerful problem-solving skills</p>
+          <div class="path-meta">
+            <span><i class="fas fa-book"></i> 24 Lessons</span>
+            <span><i class="fas fa-clock"></i> 12 Weeks</span>
+          </div>
+          <button class="btn btn-path">Begin Path</button>
+        </div>
+      </div>
+      
+      <div class="path-card">
+        <div class="path-image">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+               alt="Programming path">
+          <div class="path-overlay">
+            <span class="path-level advanced">Advanced</span>
+          </div>
+        </div>
+        <div class="path-content">
+          <h3>Code Mastery</h3>
+          <p>From fundamentals to advanced concepts</p>
+          <div class="path-meta">
+            <span><i class="fas fa-book"></i> 36 Lessons</span>
+            <span><i class="fas fa-clock"></i> 16 Weeks</span>
+          </div>
+          <button class="btn btn-path">Begin Path</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enchanting Call to Action -->
+<div class="cta-section">
+  <div class="cta-background"></div>
+  <div class="container">
+    <div class="cta-content">
+      <h2>Ready to Begin Your Learning Adventure?</h2>
+      <p>Join a community of passionate learners</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-cta-primary">Start Learning Free</a>
+        <a href="#" class="btn btn-cta-secondary">Explore Courses</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Enchanting Color Palette */
+:root {
+  --primary: #4361ee;
+  --primary-light: #e6e9ff;
+  --secondary: #3f37c9;
+  --accent: #f72585;
+  --dark: #212529;
+  --light: #f8f9fa;
+  --gray: #6c757d;
+  --light-gray: #e9ecef;
+}
+
+/* Hero Section - A Visual Masterpiece */
+.hero-section {
+  position: relative;
+  padding: 8rem 0;
+  overflow: hidden;
+  color: white;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  z-index: -2;
+}
+
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+  z-index: -1;
+}
+
+.floating-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  filter: blur(30px);
+  animation: float 15s infinite linear;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  right: -50px;
+  animation-delay: 5s;
+}
+
+.shape-3 {
+  width: 150px;
+  height: 150px;
+  top: 30%;
+  right: 10%;
+  animation-delay: 10s;
+}
+
+.shape-4 {
+  width: 250px;
+  height: 250px;
+  bottom: 20%;
+  left: 10%;
+  animation-delay: 7s;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(50px, 50px) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.magic-text {
+  background: linear-gradient(90deg, #f72585, #b5179e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: magic-pulse 3s infinite;
+}
+
+@keyframes magic-pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; text-shadow: 0 0 20px rgba(247, 37, 133, 0.5); }
+  100% { opacity: 0.8; }
+}
+
+.creative-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.creative-underline:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.3);
+  z-index: -1;
+  border-radius: 4px;
+  animation: underline-grow 1.5s ease-out;
+}
+
+@keyframes underline-grow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-magic {
+  background: linear-gradient(135deg, #f72585, #b5179e);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(247, 37, 133, 0.4);
+}
+
+.btn-magic:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(247, 37, 133, 0.6);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-3px);
+}
+
+.hero-image-wrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+  transition: all 0.5s ease;
+}
+
+.hero-image-wrapper:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-10px);
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.image-reflection {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+  filter: blur(10px);
+  z-index: 1;
+}
+
+/* Enchanted Search Section */
+.search-section {
+  padding: 3rem 0;
+  background: white;
+  position: relative;
+  z-index: 10;
+  margin-top: -50px;
+}
+
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-box {
+  position: relative;
+  background: white;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--light-gray);
+  transition: all 0.3s ease;
+}
+
+.search-box:hover {
+  box-shadow: 0 15px 40px rgba(67, 97, 238, 0.15);
+}
+
+.search-icon {
+  font-size: 1.2rem;
+  color: var(--gray);
+  margin-right: 15px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1.1rem;
+  padding: 10px 0;
+  background: transparent;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  background: var(--secondary);
+  transform: translateX(5px);
+}
+
+.search-tags {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tag-bubble {
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tag-bubble:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* Mesmerizing Lessons Grid */
+.lessons-section {
+  padding: 6rem 0;
+  background: var(--light);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.section-highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.section-highlight:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 100%;
+  height: 10px;
+  background: rgba(67, 97, 238, 0.2);
+  z-index: -1;
+  border-radius: 5px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--gray);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.lesson-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+  transition: all 0.5s ease;
+  position: relative;
+}
+
+.lesson-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(67, 97, 238, 0.2);
+}
+
+.card-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background: white;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.card-title a {
+  color: var(--dark);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background-image: linear-gradient(var(--primary), var(--primary));
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size 0.3s ease;
+}
+
+.card-title a:hover {
+  color: var(--primary);
+  background-size: 100% 2px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-text {
+  color: var(--gray);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.card-footer {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--light-gray);
+}
+
+.btn-card {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-card:hover {
+  background: var(--secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+.admin-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray);
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  background: rgba(67, 97, 238, 0.1);
+  color: var(--primary);
+}
+
+.empty-state {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 4rem 0;
+}
+
+.empty-state h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.empty-state p {
+  color: var(--gray);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* Learning Paths Gallery */
+.paths-section {
+  padding: 6rem 0;
+  background: white;
+}
+
+.paths-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.path-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+  transition: all 0.5s ease;
+}
+
+.path-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(67, 97, 238, 0.2);
+}
+
+.path-image {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.path-card:hover .path-image img {
+  transform: scale(1.1);
+}
+
+.path-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.path-level {
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.path-level.beginner {
+  background: #28a745;
+}
+
+.path-level.intermediate {
+  background: #ffc107;
+}
+
+.path-level.advanced {
+  background: #dc3545;
+}
+
+.path-content {
+  padding: 20px;
+}
+
+.path-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.path-content p {
+  color: var(--gray);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.path-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.btn-path {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-path:hover {
+  background: var(--secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+/* Enchanting Call to Action */
+.cta-section {
+  position: relative;
+  padding: 8rem 0;
+  color: white;
+  overflow: hidden;
+}
+
+.cta-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  z-index: -2;
+}
+
+.cta-background:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://www.transparenttextures.com/patterns/connected.png');
+  opacity: 0.1;
+  z-index: -1;
+}
+
+.cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.cta-content h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.cta-content p {
+  font-size: 1.5rem;
+  opacity: 0.9;
+  margin-bottom: 3rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-cta-primary {
+  background: white;
+  color: var(--primary);
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.btn-cta-primary:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.btn-cta-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-cta-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-5px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 6rem 0;
+  }
+  
+  .hero-content {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-cta {
+    align-items: center;
+  }
+  
+  .hero-image-wrapper {
+    transform: none;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .lessons-grid, .paths-gallery {
+    grid-template-columns: 1fr;
+  }
+  
+  .cta-content h2 {
+    font-size: 2.5rem;
+  }
+  
+  .cta-content p {
+    font-size: 1.2rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .search-box {
+    flex-direction: column;
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  .search-icon {
+    display: none;
+  }
+  
+  .search-box input {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .search-button {
+    width: 100%;
+    border-radius: 10px;
+    justify-content: center;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Search functionality
+  function searchLessons() {
+    const searchTerm = document.getElementById('lessonSearch').value.toLowerCase();
+    const lessonCards = document.querySelectorAll('.lesson-card');
+    
+    lessonCards.forEach(card => {
+      const title = card.querySelector('.card-title').textContent.toLowerCase();
+      const content = card.querySelector('.card-text').textContent.toLowerCase();
+      
+      if (title.includes(searchTerm) || content.includes(searchTerm)) {
+        card.style.display = 'block';
+        card.style.animation = 'highlight 1s';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+  
+  // Add event listener for Enter key
+  document.getElementById('lessonSearch').addEventListener('keyup', function(e) {
+    if (e.key === 'Enter') {
+      searchLessons();
+    }
+  });
+  
+  // Add highlight animation style
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes highlight {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(67, 97, 238, 0); }
+      50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(67, 97, 238, 0.3); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(67, 97, 238, 0); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+  
+  // Animate elements when they come into view
+  const animateOnScroll = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.lesson-card, .path-card').forEach(card => {
+    animateOnScroll.observe(card);
+  });
+});
+</script>
+{% endblock %}

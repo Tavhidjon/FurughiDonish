@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cosmic-profile-container">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="cosmic-form-card">
+                    <h2 class="cosmic-form-title text-center mb-4">Edit Your Profile</h2>
+                    
+                    <form method="POST" enctype="multipart/form-data" class="cosmic-edit-form">
+                        {% csrf_token %}
+                        
+                        <div class="cosmic-avatar-upload mb-4">
+                            <div class="current-avatar">
+                                <img src="{{ profile.avatar.url }}" alt="Current Avatar" id="avatarPreview">
+                            </div>
+                            <div class="upload-controls">
+                                <label for="{{ form.avatar.id_for_label }}" class="btn btn-cosmic-upload">
+                                    <i class="fas fa-camera me-2"></i>Change Avatar
+                                </label>
+                                {{ form.avatar }}
+                            </div>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <div class="form-floating cosmic-input-group">
+                                    {{ form.bio }}
+                                    <label>About Me</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating cosmic-input-group">
+                                    {{ form.birth_date }}
+                                    <label>Birth Date</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating cosmic-input-group">
+                                    {{ form.location }}
+                                    <label>Location</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating cosmic-input-group">
+                                    {{ form.interests }}
+                                    <label>Interests</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating cosmic-input-group">
+                                    {{ form.education_level }}
+                                    <label>Education Level</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-cosmic">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.cosmic-form-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.cosmic-avatar-upload {
+    text-align: center;
+}
+
+.current-avatar {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1rem;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--cosmic-secondary);
+}
+
+.current-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-cosmic-upload {
+    background: var(--cosmic-gradient);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cosmic-upload:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.2);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.cosmic-input-group {
+    margin-bottom: 1rem;
+}
+
+.cosmic-input-group input,
+.cosmic-input-group textarea {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 10px;
+}
+
+.cosmic-input-group label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.cosmic-input-group input:focus,
+.cosmic-input-group textarea:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--cosmic-secondary);
+    color: white;
+    box-shadow: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const avatarInput = document.getElementById('{{ form.avatar.id_for_label }}');
+    const avatarPreview = document.getElementById('avatarPreview');
+
+    avatarInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                avatarPreview.src = e.target.result;
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+});
+</script>
+{% endblock %}

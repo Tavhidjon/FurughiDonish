@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}My Learning Progress{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1>My Learning Progress</h1>
+        
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for progress in progress_list %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ progress.lesson.topic }}</h5>
+                        <div class="progress mb-3">
+                            <div class="progress-bar {% if progress.is_completed %}bg-success{% endif %}" 
+                                 role="progressbar" 
+                                 style="width: {% if progress.is_completed %}100%{% else %}50%{% endif %}">
+                            </div>
+                        </div>
+                        <p class="card-text">
+                            Status: 
+                            {% if progress.is_completed %}
+                                <span class="badge bg-success">Completed</span>
+                            {% else %}
+                                <span class="badge bg-warning">In Progress</span>
+                            {% endif %}
+                        </p>
+                        {% if progress.quiz_score is not None %}
+                        <p class="card-text">
+                            Quiz Score: 
+                            <span class="badge bg-primary">{{ progress.quiz_score }}%</span>
+                        </p>
+                        {% endif %}
+                        <p class="card-text">
+                            <small class="text-muted">Last accessed: {{ progress.last_accessed|date:"M d, Y" }}</small>
+                        </p>
+                        <a href="{% url 'lesson-detail' progress.lesson.pk %}" class="btn btn-primary">Continue Learning</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <p>You haven't started any lessons yet.</p>
+                    <a href="{% url 'lesson-list' %}" class="btn btn-primary">Browse Lessons</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

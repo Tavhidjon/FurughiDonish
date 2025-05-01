@@ -1,0 +1,117 @@
+/* Chat styles */
+.message {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.message.user {
+    margin-left: 20%;
+}
+
+.message.assistant, 
+.message.error {
+    margin-right: 20%;
+}
+
+#chat-messages {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#chat-form {
+    position: relative;
+}
+
+.loading-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Reset answer card styles */
+.answer-card {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.answer-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.answer-content {
+    margin-bottom: 0.5rem;
+}
+
+.answer-meta {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+.answer-meta strong {
+    color: #4361ee;
+}
+
+.answer-author {
+    font-weight: 500;
+    color: #4361ee;
+}
+
+.answer-date {
+    color: #6c757d;
+}
+
+/* Remove old styles */
+.card-footer,
+.border-left,
+.box-shadow {
+    display: none;
+}
+
+/* Question styles */
+.question-header h1 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.question-content {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.question-content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+/* Badge styles */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.badge.bg-primary {
+    background-color: #4361ee !important;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #4361ee;
+    border-color: #4361ee;
+}
+
+.btn-primary:hover {
+    background-color: #3151de;
+    border-color: #3151de;
+}
+
+/* Border styles */
+.border-primary {
+    border-color: #4361ee !important;
+}

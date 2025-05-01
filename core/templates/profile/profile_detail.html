@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cosmic-profile-container">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="cosmic-profile-card">
+                    <div class="profile-header">
+                        <div class="avatar-container">
+                            <img src="{{ profile.avatar.url }}" alt="Profile Avatar" class="profile-avatar">
+                            <div class="avatar-overlay"></div>
+                        </div>
+                        <h2 class="profile-name">{{ profile.user.get_full_name }}</h2>
+                        <p class="profile-username">@{{ profile.user.username }}</p>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Joined {{ profile.joined_date|date:"M Y" }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ profile.location|default:"Location not set" }}</span>
+                        </div>
+                    </div>
+                    {% if user == profile.user %}
+                    <a href="{% url 'profile-edit' %}" class="btn btn-cosmic-edit">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="cosmic-profile-content">
+                    <div class="content-section">
+                        <h3>About Me</h3>
+                        <p>{{ profile.bio|default:"No bio added yet." }}</p>
+                    </div>
+                    <div class="content-section">
+                        <h3>Interests</h3>
+                        <p>{{ profile.interests|default:"No interests added yet." }}</p>
+                    </div>
+                    <div class="content-section">
+                        <h3>Education</h3>
+                        <p>{{ profile.education_level|default:"No education level specified." }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.cosmic-profile-container {
+    background: var(--cosmic-dark);
+    min-height: calc(100vh - 76px);
+}
+
+.cosmic-profile-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.avatar-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1.5rem;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--cosmic-secondary);
+}
+
+.profile-name {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.profile-username {
+    color: var(--cosmic-secondary);
+    font-size: 1.1rem;
+}
+
+.cosmic-profile-content {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.content-section {
+    margin-bottom: 2rem;
+}
+
+.content-section h3 {
+    color: var(--cosmic-secondary);
+    margin-bottom: 1rem;
+}
+</style>
+{% endblock %}

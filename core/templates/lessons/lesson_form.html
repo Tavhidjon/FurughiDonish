@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if form.instance.pk %}Edit{% else %}Create{% endif %} Lesson{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card bg-dark text-light">
+        <div class="card-header">
+            <h3 class="text-warning">
+                <i class="fas fa-plus-circle me-2"></i>Create New Lesson
+            </h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <!-- Title -->
+                <div class="mb-3">
+                    <label for="id_title" class="form-label">Title</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                    <div class="invalid-feedback">{{ form.title.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="id_description" class="form-label">Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                    <div class="invalid-feedback">{{ form.description.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-warning">
+                    <i class="fas fa-save me-2"></i>Create Lesson
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-warning mb-0"><i class="fas fa-users me-2"></i>Students</h2>
+        <a href="{% url 'student-create' %}" class="btn btn-primary">
+            <i class="fas fa-user-plus me-2"></i>Add Student
+        </a>
+    </div>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="card bg-dark shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-dark">
+                    <thead>
+                        <tr>
+                            <th class="text-info">Student ID</th>
+                            <th class="text-info">Name</th>
+                            <th class="text-info">Email</th>
+                            <th class="text-info">Grade Level</th>
+                            <th class="text-info">Phone</th>
+                            <th class="text-info">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td class="text-light">{{ student.student_id }}</td>
+                            <td class="text-light">{{ student.user.get_full_name }}</td>
+                            <td class="text-light">{{ student.user.email }}</td>
+                            <td class="text-light">{{ student.grade_level }}</td>
+                            <td class="text-light">{{ student.phone_number|default:"-" }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'student-detail' student.pk %}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'student-update' student.pk %}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'student-delete' student.pk %}" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">No students found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.table-dark {
+    background: rgba(13, 17, 23, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.table-dark thead th {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--divine-gold) !important;
+    font-weight: 600;
+}
+
+.table-dark td {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.card {
+    background: rgba(13, 17, 23, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+}
+
+.btn-group .btn {
+    margin: 0 2px;
+    border-radius: 6px;
+}
+
+.text-light {
+    color: #e6e6e6 !important;
+}
+
+.table-hover tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+</style>
+{% endblock %}

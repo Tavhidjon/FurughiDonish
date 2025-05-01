@@ -1,0 +1,528 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - TutorFlow{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="registration-container">
+    <div class="background-image"></div>
+    
+    <div class="registration-card">
+        <div class="registration-header">
+            <div class="logo-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="TutorFlow Logo" class="logo-img">
+            </div>
+            <h1 class="brand-title">Join TutorFlow</h1>
+            <p class="brand-subtitle">Begin your learning journey today</p>
+        </div>
+
+        {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                <div class="alert-icon">
+                    {% if message.tags == 'success' %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                        <i class="fas fa-exclamation-circle"></i>
+                    {% endif %}
+                </div>
+                {{ message }}
+                <button type="button" class="alert-close" data-bs-dismiss="alert">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="registration-form needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="form-field-group">
+                <!-- Name fields in one row -->
+                <div class="name-fields">
+                    <div class="form-field name-field">
+                        {{ form.first_name }}
+                        <label for="{{ form.first_name.id_for_label }}" class="floating-label">
+                            <i class="field-icon">
+                                <i class="fas fa-signature"></i>
+                            </i>
+                            {{ form.first_name.label }}
+                        </label>
+                        {% if form.first_name.errors %}
+                        <div class="field-error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.first_name.errors|join:", " }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-field name-field">
+                        {{ form.last_name }}
+                        <label for="{{ form.last_name.id_for_label }}" class="floating-label">
+                            <i class="field-icon">
+                                <i class="fas fa-signature"></i>
+                            </i>
+                            {{ form.last_name.label }}
+                        </label>
+                        {% if form.last_name.errors %}
+                        <div class="field-error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ form.last_name.errors|join:", " }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Other fields -->
+                {% for field in form %}
+                    {% if field.name != 'first_name' and field.name != 'last_name' %}
+                    <div class="form-field">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}" class="floating-label">
+                            <i class="field-icon">
+                                {% if field.name == 'username' %}
+                                    <i class="fas fa-user-graduate"></i>
+                                {% elif field.name == 'email' %}
+                                    <i class="fas fa-envelope"></i>
+                                {% elif 'password' in field.name %}
+                                    <i class="fas fa-lock"></i>
+                                {% endif %}
+                            </i>
+                            {{ field.label }}
+                        </label>
+                        {% if field.errors %}
+                        <div class="field-error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {{ field.errors|join:", " }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary btn-submit">
+                    <span class="btn-text">Create Account</span>
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+
+                <div class="divider">
+                    <span>or continue with</span>
+                </div>
+
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="google-logo">
+                    Google
+                </a>
+
+                <p class="login-link">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --accent-color: #4cc9f0;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --text-muted: #6c757d;
+}
+
+.registration-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    opacity: 0.9;
+}
+
+.background-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(67, 97, 238, 0.85) 0%, rgba(58, 12, 163, 0.85) 100%);
+}
+
+.registration-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo-container {
+    margin-bottom: 1.5rem;
+}
+
+.logo-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.brand-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.brand-subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-muted);
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.message-container {
+    margin-bottom: 1.5rem;
+}
+
+.alert {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.alert::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.alert-success {
+    background-color: #f0fff4;
+    color: var(--success-color);
+    border: 1px solid #c6f6d5;
+}
+
+.alert-success::before {
+    background-color: var(--success-color);
+}
+
+.alert-error {
+    background-color: #fff5f5;
+    color: var(--error-color);
+    border: 1px solid #fed7d7;
+}
+
+.alert-error::before {
+    background-color: var(--error-color);
+}
+
+.alert-icon {
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.alert-close {
+    background: none;
+    border: none;
+    color: inherit;
+    margin-left: auto;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+.form-field-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Name fields row */
+.name-fields {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.name-field {
+    flex: 1;
+    position: relative;
+}
+
+.form-field {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    color: var(--dark-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-field input:focus {
+    background: white;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+    outline: none;
+}
+
+.form-field input::placeholder {
+    color: transparent;
+}
+
+.floating-label {
+    position: absolute;
+    top: 1rem;
+    left: 3rem;
+    color: var(--text-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.form-field input:focus + .floating-label,
+.form-field input:not(:placeholder-shown) + .floating-label {
+    top: -0.8rem;
+    left: 1rem;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    background: white;
+    padding: 0 0.5rem;
+}
+
+.field-icon {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+    width: 20px;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.field-error {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.field-error i {
+    margin-right: 0.5rem;
+}
+
+.form-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    color: var(--text-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e9ecef;
+    margin: 0 1rem;
+}
+
+.btn-google {
+    width: 100%;
+    padding: 0.8rem;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    color: var(--dark-color);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.btn-google:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-color: #d1d5db;
+}
+
+.google-logo {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.8rem;
+}
+
+.login-link {
+    text-align: center;
+    color: var(--text-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.login-link a {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.login-link a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .registration-container {
+        padding: 1rem;
+    }
+    
+    .registration-card {
+        padding: 1.5rem;
+    }
+    
+    .brand-title {
+        font-size: 1.8rem;
+    }
+    
+    .logo-img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .form-field input {
+        padding-left: 2.5rem;
+    }
+    
+    .floating-label {
+        left: 2.5rem;
+    }
+    
+    /* Stack name fields on mobile */
+    .name-fields {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add floating animation to form fields on focus
+    const formFields = document.querySelectorAll('.form-field input');
+    
+    formFields.forEach(field => {
+        field.addEventListener('focus', function() {
+            this.parentElement.querySelector('.field-icon').style.transform = 'scale(1.2)';
+            this.parentElement.querySelector('.field-icon').style.color = 'var(--secondary-color)';
+        });
+        
+        field.addEventListener('blur', function() {
+            this.parentElement.querySelector('.field-icon').style.transform = 'scale(1)';
+            this.parentElement.querySelector('.field-icon').style.color = 'var(--primary-color)';
+        });
+        
+        // Add placeholder to prevent label jump
+        if (!field.placeholder) {
+            field.placeholder = ' ';
+        }
+    });
+});
+</script>
+{% endblock %}

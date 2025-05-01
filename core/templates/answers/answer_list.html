@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Answers{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1>All Answers</h1>
+        
+        <div class="list-group">
+            {% for answer in answers %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5><a href="{% url 'answer-detail' answer.pk %}">Re: {{ answer.question.title }}</a></h5>
+                    <span class="badge bg-primary">Upvotes: {{ answer.upvotes }}</span>
+                </div>
+                <p class="mb-1">{{ answer.content|truncatewords:30 }}</p>
+                <small class="text-muted">
+                    By {% if answer.is_ai_generated %}AI{% else %}{{ answer.user.username }}{% endif %}
+                    on {{ answer.created_at|date:"M d, Y" }}
+                </small>
+                {% if user == answer.user %}
+                <div class="mt-2">
+                    <a href="{% url 'answer-update' answer.pk %}" class="btn btn-sm btn-info">Edit</a>
+                    <a href="{% url 'answer-delete' answer.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>No answers yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <h5 class="mb-0">AI Assistant</h5>
+                </div>
+                <div class="card-body">
+                    <div id="chat-messages" class="mb-4" style="height: 400px; overflow-y: auto;">
+                    </div>
+                    <form id="chat-form" method="POST" class="d-flex gap-2">
+                        {% csrf_token %}
+                        <input type="text" id="question-input" name="question" class="form-control" 
+                               placeholder="Ask your question..." required>
+                        <button type="submit" class="btn btn-primary" id="submit-btn" title="Send message">
+                            <span class="normal-state">Send</span>
+                            <span class="loading-state d-none">
+                                <span class="spinner-border spinner-border-sm"></span>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const chatForm = document.getElementById('chat-form');
+const questionInput = document.getElementById('question-input');
+const submitButton = document.getElementById('submit-btn');
+const chatMessages = document.getElementById('chat-messages');
+
+chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const question = questionInput.value.trim();
+    if (!question) return;
+    
+    // Disable form
+    submitButton.disabled = true;
+    submitButton.querySelector('.normal-state').classList.add('d-none');
+    submitButton.querySelector('.loading-state').classList.remove('d-none');
+    questionInput.disabled = true;
+    
+    // Add user message
+    addMessage('user', question);
+    
+    try {
+        const formData = new FormData();
+        formData.append('question', question);
+        
+        const response = await fetch('/ai-assistant/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Network response was not ok');
+        }
+        
+        if (data.status === 'success') {
+            addMessage('assistant', data.response);
+        } else {
+            throw new Error(data.message || 'Unknown error occurred');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        addMessage('error', error.message || 'Something went wrong');
+    } finally {
+        // Reset form
+        questionInput.value = '';
+        questionInput.disabled = false;
+        submitButton.disabled = false;
+        submitButton.querySelector('.normal-state').classList.remove('d-none');
+        submitButton.querySelector('.loading-state').classList.add('d-none');
+        questionInput.focus();
+    }
+});
+
+function addMessage(type, content) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type} mb-3`;
+    messageDiv.innerHTML = `
+        <div class="p-3 rounded ${type === 'user' ? 'bg-light text-end' : 
+                                   type === 'error' ? 'bg-danger text-white' : 
+                                   'bg-primary text-white'}">
+            ${content}
+        </div>
+    `;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+</script>
+{% endblock %}

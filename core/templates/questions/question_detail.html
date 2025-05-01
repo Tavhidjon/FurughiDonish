@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* General Styles */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #ffffff;
+        color: #2c3e50;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    h1, h2 {
+        font-weight: 700;
+        color: #1a202c;
+    }
+
+    small.text-muted {
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+
+    /* Question Section */
+    .question-container {
+        border-bottom: 1px solid #eaeaea;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .question-title {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .question-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.9rem;
+        color: #6b7280;
+    }
+
+    .question-likes {
+        background: linear-gradient(135deg, #ff6b6b, #ff8177);
+        color: #ffffff;
+        font-size: 0.875rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: background 0.3s ease;
+    }
+
+    .question-likes:hover {
+        background: linear-gradient(135deg, #ff4d4d, #ff6359);
+    }
+
+    /* Answers Section */
+    .answer-container {
+        border-bottom: 1px solid #eaeaea;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .answer-text {
+        font-size: 1rem;
+        color: #4a5568;
+        margin-top: 1rem;
+    }
+
+    .answer-meta {
+        font-size: 0.9rem;
+        color: #6b7280;
+        margin-top: 0.5rem;
+    }
+
+    /* Add Answer Button */
+    .add-answer-btn {
+        background: linear-gradient(135deg, #0d6efd, #1a75ff);
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .add-answer-btn:hover {
+        background: linear-gradient(135deg, #0b5ed7, #1669ff);
+        transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .question-title {
+            font-size: 1.5rem;
+        }
+
+        .add-answer-btn {
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <!-- Question Section -->
+    <div class="question-container">
+        <h1 class="question-title">{{ question.title }}</h1>
+        <div class="question-meta">
+            <span>Asked by {{ question.user.username }} • {{ question.created_at|date:"M d, Y" }}</span>
+            {% if question.tags %}
+                <div class="tags-container">
+                    {% for tag in question.tags.split %}
+                        <span class="tag-badge">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="question-content mb-3">
+            {{ question.content }}
+        </div>
+        <div class="question-likes">
+            {{ question.likes.count }}
+        </div>
+    </div>
+
+    <!-- Answers Section -->
+    <div class="mt-5">
+        <h2 class="mb-4">{{ question.answers.count }} Answer{{ question.answers.count|pluralize }}</h2>
+        
+        {% for answer in question.answers.all %}
+            <div class="answer-container">
+                <div class="answer-text">{{ answer.content }}</div>
+                <small class="text-muted answer-meta d-block mt-2">
+                    Answered by {{ answer.owner.username }} • {{ answer.created_at|date:"M d, Y" }}
+                </small>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add Answer Button -->
+    {% if user.is_authenticated %}
+        <div class="mt-4 text-center">
+            <a href="{% url 'answer-create' question.id %}" class="add-answer-btn">Add Answer</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

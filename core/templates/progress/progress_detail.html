@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Progress Details - {{ progress.lesson.topic }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Progress for: {{ progress.lesson.topic }}</h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Learning Status</h5>
+                <div class="progress mb-3">
+                    <div class="progress-bar {% if progress.is_completed %}bg-success{% endif %}" 
+                         role="progressbar" 
+                         style="width: {% if progress.is_completed %}100%{% else %}50%{% endif %}">
+                    </div>
+                </div>
+                
+                <dl class="row">
+                    <dt class="col-sm-3">Status:</dt>
+                    <dd class="col-sm-9">
+                        {% if progress.is_completed %}
+                            <span class="badge bg-success">Completed</span>
+                        {% else %}
+                            <span class="badge bg-warning">In Progress</span>
+                        {% endif %}
+                    </dd>
+
+                    <dt class="col-sm-3">Quiz Score:</dt>
+                    <dd class="col-sm-9">
+                        {% if progress.quiz_score is not None %}
+                            <span class="badge bg-primary">{{ progress.quiz_score }}%</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Not taken</span>
+                        {% endif %}
+                    </dd>
+
+                    <dt class="col-sm-3">Last Accessed:</dt>
+                    <dd class="col-sm-9">{{ progress.last_accessed|date:"M d, Y H:i" }}</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="{% url 'lesson-detail' progress.lesson.pk %}" class="btn btn-primary">Continue Learning</a>
+            <a href="{% url 'progress-update' progress.pk %}" class="btn btn-info">Update Progress</a>
+            <a href="{% url 'progress-list' %}" class="btn btn-secondary">Back to Progress</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

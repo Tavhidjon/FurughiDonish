@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurughiDonish - {% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+        :root {
+            --celestial-white: #ffffff;
+            --heavenly-light: #f8f9ff;
+            --divine-pearl: #f0f4ff;
+            --ethereal-mist: #e6ecff;
+            --angelic-gold: #ffd700;
+            --sacred-sunlight: #ffecb3;
+            --celestial-blue: #a7c7ff;
+            --divine-lavender: #d4c2fc;
+            --serene-pink: #ffd6e8;
+            --radiant-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+            --divine-glow: 0 0 20px rgba(255, 236, 179, 0.5);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--heavenly-light);
+            color: #4a4a6a;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(167, 199, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 30%, rgba(212, 194, 252, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(255, 214, 0, 0.1) 0%, transparent 30%);
+            line-height: 1.7;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="0.8" fill="%234a4a6a" opacity="0.15"/></svg>') repeat,
+                linear-gradient(135deg, rgba(255,236,179,0.05) 0%, transparent 100%);
+            opacity: 0.6;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #3a3a5a;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.5s ease;
+            box-shadow: var(--radiant-shadow);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #6a5acd, #ff8c69, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            text-shadow: var(--divine-glow);
+        }
+
+        .navbar-brand::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #6a5acd, #ff8c69, #ffd700);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s ease;
+            border-radius: 3px;
+        }
+
+        .navbar-brand:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+            box-shadow: var(--divine-glow);
+        }
+
+        .nav-link {
+            color: #5a5a7a !important;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            margin: 0 0.3rem;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--celestial-blue), var(--divine-lavender));
+            z-index: -1;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            border-radius: 50px;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            transform: translateY(-3px);
+        }
+
+        .nav-link:hover::before {
+            transform: translateY(0);
+            opacity: 1;
+            box-shadow: 0 5px 15px rgba(106, 90, 205, 0.2);
+        }
+
+        .main-content {
+            min-height: calc(100vh - 180px);
+            padding: 4rem 0;
+            animation: celestialFadeIn 1.5s ease;
+            position: relative;
+        }
+
+        @keyframes celestialFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(245, 247, 255, 0.98));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            color: #5a5a7a;
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+            box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--angelic-gold), transparent);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--radiant-shadow);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+            z-index: -1;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .card-header {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.95);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+            color: #3a3a5a;
+        }
+
+        .btn {
+            border-radius: 50px;
+            padding: 0.8rem 2.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            z-index: 1;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--celestial-blue), var(--divine-lavender));
+            background-size: 200% 200%;
+            z-index: -1;
+            transition: all 0.4s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(106, 90, 205, 0.2);
+            color: white;
+        }
+
+        .btn:hover::before {
+            background-position: 100% 100%;
+        }
+
+        .btn-primary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            color: white;
+            border-color: transparent;
+        }
+
+        .dropdown-menu {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            color: #5a5a7a;
+            padding: 0.8rem 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 10px;
+            margin: 0.2rem 0;
+        }
+
+        .dropdown-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .dropdown-item:hover {
+            background: transparent;
+            color: #3a3a5a;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item:hover::before {
+            left: 100%;
+        }
+
+        .alert {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            color: #4a4a6a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--angelic-gold), var(--serene-pink));
+        }
+
+        .search-form .input-group {
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            transition: all 0.4s ease;
+        }
+
+        .search-form .input-group:focus-within {
+            box-shadow: 0 15px 30px rgba(106, 90, 205, 0.15);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .search-form .form-control {
+            background: transparent;
+            border: none;
+            color: #4a4a6a;
+            padding: 1rem 1.5rem;
+        }
+
+        .search-form .form-control::placeholder {
+            color: rgba(74, 74, 106, 0.6);
+        }
+
+        .search-form .form-control:focus {
+            box-shadow: none;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .search-form .btn {
+            padding: 0 2rem;
+        }
+
+        /* Celestial floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            z-index: -1;
+            mix-blend-mode: overlay;
+        }
+
+        .floating-element-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--celestial-blue);
+            top: -100px;
+            left: -100px;
+            animation: float 18s infinite ease-in-out;
+        }
+
+        .floating-element-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--divine-lavender);
+            bottom: -150px;
+            right: -100px;
+            animation: float 25s infinite ease-in-out reverse;
+        }
+
+        .floating-element-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--serene-pink);
+            top: 50%;
+            left: 30%;
+            animation: float 20s 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(30px, 30px) rotate(3deg);
+            }
+            50% {
+                transform: translate(-20px, 40px) rotate(-3deg);
+            }
+            75% {
+                transform: translate(40px, -20px) rotate(3deg);
+            }
+        }
+
+        /* Divine glow effect */
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 236, 179, 0.5);
+        }
+
+        /* Celestial divider */
+        .divine-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--angelic-gold), transparent);
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .divine-divider::after {
+            content: "";
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--angelic-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--angelic-gold);
+        }
+
+        /* Divine pulse animation */
+        @keyframes divinePulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.2);
+            }
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+            }
+        }
+
+        .divine-pulse {
+            animation: divinePulse 3s infinite;
+        }
+
+        /* Text gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--celestial-blue), #6a5acd, #ff8c69);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline;
+        }
+
+        /* Hover underline animation */
+        .hover-underline {
+            position: relative;
+        }
+
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, var(--angelic-gold), var(--serene-pink));
+            transition: width 0.3s ease;
+        }
+
+        .hover-underline:hover::after {
+            width: 100%;
+        }
+
+        /* Divine scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(245, 247, 255, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--angelic-gold), var(--sacred-sunlight));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--sacred-sunlight), var(--angelic-gold));
+        }
+
+        /* Divine focus states */
+        a:focus, button:focus, input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Celestial loading animation */
+        @keyframes celestialSpin {
+            0% {
+                transform: rotate(0deg);
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(255, 215, 0, 0);
+            }
+            100% {
+                transform: rotate(360deg);
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        .celestial-spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid transparent;
+            border-top-color: var(--angelic-gold);
+            border-radius: 50%;
+            animation: celestialSpin 1.5s linear infinite;
+            position: relative;
+        }
+
+        .celestial-spinner::before,
+        .celestial-spinner::after {
+            content: "";
+            position: absolute;
+            border: 2px solid transparent;
+            border-radius: 50%;
+        }
+
+        .celestial-spinner::before {
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border-top-color: var(--divine-lavender);
+            animation: celestialSpin 3s linear infinite;
+        }
+
+        .celestial-spinner::after {
+            top: 9px;
+            left: 9px;
+            right: 9px;
+            bottom: 9px;
+            border-top-color: var(--celestial-blue);
+            animation: celestialSpin 1.5s linear infinite reverse;
+        }
+
+        /* Divine cursor effects */
+        .divine-cursor {
+            position: fixed;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.4);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: overlay;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        .divine-cursor-follower {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: overlay;
+            z-index: 9998;
+            transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.7rem;
+            }
+            
+            .nav-link {
+                padding: 0.5rem 1rem;
+                margin: 0.2rem 0;
+            }
+            
+            .main-content {
+                padding: 2.5rem 0;
+            }
+
+            .floating-element {
+                filter: blur(40px);
+                opacity: 0.15;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Divine cursor elements -->
+    <div class="divine-cursor"></div>
+    <div class="divine-cursor-follower"></div>
+
+    <!-- Celestial background elements -->
+    <div class="floating-element floating-element-1"></div>
+    <div class="floating-element floating-element-2"></div>
+    <div class="floating-element floating-element-3"></div>
+
+    <div id="google_translate_element" class="translate-element"></div>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'intro' %}">
+                <i class="fas fa-graduation-cap me-2"></i>FurughiDonish
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lesson-list' %}">
+                            <i class="fas fa-book me-1"></i>Lessons
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'quiz-list' %}">
+                            <i class="fas fa-tasks me-1"></i>Quizzes
+                        </a>
+                    </li>
+                    {% if user.is_superuser %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="quizManageDropdown" role="button" 
+                           data-bs-toggle="dropdown">
+                            <i class="fas fa-crown me-1"></i>Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'quiz-create' %}">
+                                    <i class="fas fa-plus-circle me-2"></i>Create Quiz
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'quiz-list' %}">
+                                    <i class="fas fa-edit me-2"></i>Edit Quizzes
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-users-cog me-2"></i>Manage Users
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'student-list' %}">
+                                    <i class="fas fa-users me-2"></i>Manage Students
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'student-create' %}">
+                                    <i class="fas fa-user-plus me-2"></i>Add Student
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'question-list' %}">
+                            <i class="fas fa-comments me-1"></i>Questions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'chat' %}">
+                            <i class="fas fa-robot me-1"></i>AI Tutor
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                           data-bs-toggle="dropdown">
+                            <i class="fas fa-user-astronaut me-1"></i>{{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'progress-list' %}">
+                                    <i class="fas fa-chart-line me-2"></i>My Progress
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cog me-2"></i>Settings
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">
+                            <i class="fas fa-user-plus me-1"></i>Register
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-globe me-1"></i>Language
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="translateTo('en')">
+                                    <img src="https://flagcdn.com/w20/gb.png" alt="English" class="me-2">English
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="translateTo('tg')">
+                                    <img src="https://flagcdn.com/w20/tj.png" alt="Tajik" class="me-2">Тоҷикӣ
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="translateTo('ru')">
+                                    <img src="https://flagcdn.com/w20/ru.png" alt="Russian" class="me-2">Русский
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            {% if social_auth_error %}
+            <div class="alert alert-danger animate__animated animate__shakeX">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-exclamation-circle me-3"></i>
+                    <div>{{ social_auth_error }}</div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show animate__animated animate__fadeInRight" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="fas 
+                        {% if message.tags == 'success' %}fa-check-circle
+                        {% elif message.tags == 'error' %}fa-exclamation-circle
+                        {% elif message.tags == 'warning' %}fa-exclamation-triangle
+                        {% else %}fa-info-circle{% endif %}
+                        me-3"></i>
+                    <div>{{ message }}</div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Logo and Description -->
+                <div class="col-lg-4">
+                    <h3 class="text-gradient mb-4">FurughiDonish</h3>
+                    <p class="text-muted">
+                        Empowering learners worldwide with intelligent, personalized education since 2025.
+                    </p>
+                    <div class="social-icons mt-4">
+                        <a href="#" class="text-muted me-3 hover-underline"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-muted me-3 hover-underline"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-muted me-3 hover-underline"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-muted me-3 hover-underline"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                        <a href="#" class="text-muted hover-underline"><i class="fab fa-youtube fa-lg"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><a href="{% url 'intro' %}" class="text-muted text-decoration-none hover-underline">Home</a></li>
+                        <li class="mb-3"><a href="{% url 'lesson-list' %}" class="text-muted text-decoration-none hover-underline">Courses</a></li>
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">Pricing</a></li>
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">About Us</a></li>
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div class="col-lg-2 col-md-4">
+                    <h5 class="mb-4">Support</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">Help Center</a></li>
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">FAQs</a></li>
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">Feedback</a></li>
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">Community</a></li>
+                        <li class="mb-3"><a href="#" class="text-muted text-decoration-none hover-underline">Tutors</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div class="col-lg-4 col-md-4">
+                    <h5 class="mb-4">Stay Updated</h5>
+                    <p class="text-muted mb-4">
+                        Subscribe to our newsletter for the latest courses and learning tips.
+                    </p>
+                    <form class="mb-4">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email" required>
+                            <button class="btn btn-primary" type="submit">
+                                <span class="subscribe-text">Subscribe</span>
+                                <span class="subscribe-icon" style="display:none;">
+                                    <div class="celestial-spinner"></div>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="small text-muted">
+                        <i class="fas fa-lock me-1"></i> We respect your privacy. Unsubscribe at any time.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="divine-divider my-5"></div>
+            
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="mb-0 small text-muted">
+                        &copy; <span class="copyright-year">2025</span> FurughiDonish. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="list-inline mb-0 small">
+                        <li class="list-inline-item"><a href="#" class="text-muted text-decoration-none hover-underline">Terms</a></li>
+                        <li class="list-inline-item mx-2">•</li>
+                        <li class="list-inline-item"><a href="#" class="text-muted text-decoration-none hover-underline">Privacy</a></li>
+                        <li class="list-inline-item mx-2">•</li>
+                        <li class="list-inline-item"><a href="#" class="text-muted text-decoration-none hover-underline">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,ru,tg',
+                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
+                autoDisplay: false
+            }, 'google_translate_element');
+            
+            // Hide the default Google branding
+            var style = document.createElement('style');
+            style.innerHTML = '.skiptranslate, .goog-te-banner-frame { display: none !important; }';
+            document.head.appendChild(style);
+        }
+
+        function translateTo(langCode) {
+            if (typeof google !== 'undefined' && google.translate) {
+                var select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = langCode;
+                    select.dispatchEvent(new Event('change'));
+                } else {
+                    // Fallback if select element isn't found
+                    var frame = document.querySelector('.goog-te-menu-frame');
+                    if (frame) {
+                        frame.contentWindow.document.querySelector('.goog-te-combo').value = langCode;
+                        frame.contentWindow.document.querySelector('.goog-te-combo').dispatchEvent(new Event('change'));
+                    }
+                }
+            }
+        }
+
+        // Load Google Translate API
+        function loadGoogleTranslate() {
+            var script = document.createElement('script');
+            script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(script);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGoogleTranslate();
+            
+            // Update copyright year
+            const yearElement = document.querySelector('.copyright-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+            
+            // Initialize custom cursor
+            const cursor = document.querySelector('.divine-cursor');
+            const cursorFollower = document.querySelector('.divine-cursor-follower');
+            
+            if (cursor && cursorFollower) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                    
+                    setTimeout(() => {
+                        cursorFollower.style.left = e.clientX + 'px';
+                        cursorFollower.style.top = e.clientY + 'px';
+                    }, 100);
+                });
+                
+                // Cursor effects on interactive elements
+                const interactiveElements = document.querySelectorAll('a, button, .nav-link, .dropdown-item, .card, .btn, input, textarea, select');
+                
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursor.style.transform = 'translate(-50%, -50%) scale(1.3)';
+                        cursor.style.background = 'rgba(255, 215, 0, 0.6)';
+                        cursorFollower.style.width = '26px';
+                        cursorFollower.style.height = '26px';
+                        cursorFollower.style.borderColor = 'rgba(255, 215, 0, 0.5)';
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                        cursor.style.background = 'rgba(255, 215, 0, 0.4)';
+                        cursorFollower.style.width = '32px';
+                        cursorFollower.style.height = '32px';
+                        cursorFollower.style.borderColor = 'rgba(255, 215, 0, 0.2)';
+                    });
+                });
+            }
+            
+            // Form submission animation
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        const submitText = submitBtn.querySelector('.subscribe-text');
+                        const submitIcon = submitBtn.querySelector('.subscribe-icon');
+                        
+                        if (submitText && submitIcon) {
+                            submitText.style.display = 'none';
+                            submitIcon.style.display = 'inline-block';
+                        } else {
+                            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+                        }
+                        submitBtn.disabled = true;
+                        
+                        // Add pulsing animation
+                        gsap.to(submitBtn, {
+                            scale: 0.95,
+                            duration: 0.8,
+                            yoyo: true,
+                            repeat: -1,
+                            ease: "power1.inOut"
+                        });
+                    }
+                });
+            });
+        });
+
+        // Initialize AOS (Animate on Scroll)
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out-back',
+            once: true,
+            mirror: false,
+            offset: 100
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Floating animation for elements with GSAP
+        gsap.to(".floating-element-1", {
+            x: 80,
+            y: 80,
+            duration: 18,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        gsap.to(".floating-element-2", {
+            x: -80,
+            y: -80,
+            duration: 25,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        gsap.to(".floating-element-3", {
+            x: 120,
+            y: 120,
+            duration: 20,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: 5
+        });
+
+        // Add hover effect to cards with GSAP
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out",
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out",
+                    boxShadow: "0 15px 30px -10px rgba(0, 0, 0, 0.1)"
+                });
+            });
+        });
+
+        // Divine glow effect on headings
+        document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
+            heading.addEventListener('mouseenter', () => {
+                gsap.to(heading, {
+                    color: "#2a2a4a",
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            heading.addEventListener('mouseleave', () => {
+                gsap.to(heading, {
+                    color: "#3a3a5a",
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Divine pulse effect for important elements
+        document.querySelectorAll('.divine-pulse').forEach(el => {
+            gsap.to(el, {
+                scale: 1.03,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        });
+    </script>
+
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

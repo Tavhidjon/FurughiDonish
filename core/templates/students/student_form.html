@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        {% if form.instance.pk %}
+                            <i class="fas fa-edit me-2"></i>Edit Student
+                        {% else %}
+                            <i class="fas fa-user-plus me-2"></i>Add New Student
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate id="studentForm">
+                        {% csrf_token %}
+                        
+                        {% if messages %}
+                        <div class="messages mb-3">
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                <div class="invalid-feedback d-block">{{ form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                <div class="invalid-feedback d-block">{{ form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                            <div class="invalid-feedback d-block">{{ form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.student_id.id_for_label }}" class="form-label">Student ID</label>
+                            {{ form.student_id }}
+                            {% if form.student_id.errors %}
+                            <div class="invalid-feedback d-block">{{ form.student_id.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.grade_level.id_for_label }}" class="form-label">Grade Level</label>
+                            {{ form.grade_level }}
+                            {% if form.grade_level.errors %}
+                            <div class="invalid-feedback d-block">{{ form.grade_level.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Improved Date of Birth Field -->
+                        <div class="mb-3">
+                            <label for="date_of_birth" class="form-label">Date of Birth</label>
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="date_of_birth" 
+                                       name="date_of_birth"
+                                       placeholder="MM/DD/YYYY"
+                                       maxlength="10"
+                                       value="{{ form.date_of_birth.value|default:'' }}">
+                                <button class="btn btn-outline-secondary" type="button" id="dob_clear">
+                                    <i class="fas fa-times"></i> Clear
+                                </button>
+                            </div>
+                            {% if form.date_of_birth.errors %}
+                            <div class="invalid-feedback d-block">{{ form.date_of_birth.errors.0 }}</div>
+                            {% endif %}
+                            <small class="text-muted">Enter as numbers (MMDDYYYY), slashes will be added automatically</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+                            {{ form.phone_number }}
+                            {% if form.phone_number.errors %}
+                            <div class="invalid-feedback d-block">{{ form.phone_number.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                            {{ form.address }}
+                            {% if form.address.errors %}
+                            <div class="invalid-feedback d-block">{{ form.address.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" id="saveButton">
+                                <i class="fas fa-save me-2"></i>Save Student
+                            </button>
+                            <a href="{% url 'student-list' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to List
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        padding: 0.5rem 1rem;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--divine-gold);
+        box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+    }
+
+    .form-select {
+        background-image: linear-gradient(45deg, transparent 50%, var(--celestial-blue) 50%),
+                          linear-gradient(135deg, var(--celestial-blue) 50%, transparent 50%);
+        background-position: calc(100% - 20px) calc(1em + 2px),
+                             calc(100% - 15px) calc(1em + 2px);
+        background-size: 5px 5px,
+                        5px 5px;
+        background-repeat: no-repeat;
+        padding-right: 2rem !important;
+    }
+
+    .form-select:focus {
+        background-image: linear-gradient(45deg, var(--divine-gold) 50%, transparent 50%),
+                          linear-gradient(135deg, transparent 50%, var(--divine-gold) 50%);
+    }
+
+    .card {
+        border-radius: 15px;
+        border: none;
+    }
+
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        background: linear-gradient(135deg, var(--celestial-blue), var(--cosmic-purple)) !important;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dobInput = document.getElementById('date_of_birth');
+    const form = document.getElementById('studentForm');
+    const saveButton = document.getElementById('saveButton');
+    
+    // Clear date button
+    document.getElementById('dob_clear').addEventListener('click', function() {
+        dobInput.value = '';
+    });
+    
+    // Auto-format date with slashes
+    dobInput.addEventListener('input', function(e) {
+        // Remove all non-digit characters
+        let value = this.value.replace(/\D/g, '');
+        
+        // Add slashes at appropriate positions
+        if (value.length > 2) {
+            value = value.substring(0, 2) + '/' + value.substring(2);
+        }
+        if (value.length > 5) {
+            value = value.substring(0, 5) + '/' + value.substring(5, 9);
+        }
+        
+        // Limit to MM/DD/YYYY format
+        if (value.length > 10) {
+            value = value.substring(0, 10);
+        }
+        
+        this.value = value;
+    });
+    
+    // Validate date format on blur
+    dobInput.addEventListener('blur', function() {
+        const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+        if (this.value && !dateRegex.test(this.value)) {
+            this.classList.add('is-invalid');
+        } else {
+            this.classList.remove('is-invalid');
+        }
+    });
+    
+    // Prevent invalid characters
+    dobInput.addEventListener('keydown', function(e) {
+        // Allow: backspace, delete, tab, escape, enter
+        if ([46, 8, 9, 27, 13].includes(e.keyCode) ||
+            // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+            (e.keyCode === 65 && e.ctrlKey === true) ||
+            (e.keyCode === 67 && e.ctrlKey === true) ||
+            (e.keyCode === 86 && e.ctrlKey === true) ||
+            (e.keyCode === 88 && e.ctrlKey === true) ||
+            // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+                return;
+        }
+        // Ensure it's a number
+        if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+
+    // Form submission handler
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Disable the save button to prevent double submission
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+
+        // Format date before submission
+        if (dobInput.value) {
+            // Convert MM/DD/YYYY to YYYY-MM-DD for Django
+            const parts = dobInput.value.split('/');
+            if (parts.length === 3) {
+                const formattedDate = `${parts[2]}-${parts[0]}-${parts[1]}`;
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'date_of_birth';
+                hiddenInput.value = formattedDate;
+                form.appendChild(hiddenInput);
+            }
+        }
+
+        // Submit the form
+        form.submit();
+    });
+});
+</script>
+{% endblock %}

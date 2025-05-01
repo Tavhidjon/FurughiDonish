@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Add Learning Resource</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label">Title</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                            <div class="invalid-feedback d-block">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_resource_type" class="form-label">Resource Type</label>
+                            {{ form.resource_type }}
+                            {% if form.resource_type.errors %}
+                            <div class="invalid-feedback d-block">{{ form.resource_type.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3" id="file-upload-section">
+                            <label for="id_file" class="form-label">File</label>
+                            {{ form.file }}
+                            <div class="form-text">Upload PDF for books, MP4 for videos</div>
+                            {% if form.file.errors %}
+                            <div class="invalid-feedback d-block">{{ form.file.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3" id="url-section">
+                            <label for="id_url" class="form-label">URL</label>
+                            {{ form.url }}
+                            <div class="form-text">External link for videos or online resources</div>
+                            {% if form.url.errors %}
+                            <div class="invalid-feedback d-block">{{ form.url.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label">Description</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                            <div class="invalid-feedback d-block">{{ form.description.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{% url 'lesson-detail' lesson.id %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save Resource</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const resourceType = document.getElementById('id_resource_type');
+    const fileSection = document.getElementById('file-upload-section');
+    const urlSection = document.getElementById('url-section');
+
+    function toggleSections() {
+        const selectedValue = resourceType.value;
+        if (selectedValue === 'book') {
+            fileSection.style.display = 'block';
+            urlSection.style.display = 'none';
+        } else if (selectedValue === 'video') {
+            fileSection.style.display = 'block';
+            urlSection.style.display = 'block';
+        } else {
+            fileSection.style.display = 'none';
+            urlSection.style.display = 'block';
+        }
+    }
+
+    resourceType.addEventListener('change', toggleSections);
+    toggleSections();
+});
+</script>
+{% endblock %}

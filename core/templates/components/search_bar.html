@@ -1,0 +1,9 @@
+<form method="get" class="search-form mb-4">
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search {{ placeholder }}" 
+               value="{{ request.GET.q|default:'' }}">
+        <button class="btn btn-primary" type="submit">
+            <i class="fas fa-search"></i> Search
+        </button>
+    </div>
+</form>
