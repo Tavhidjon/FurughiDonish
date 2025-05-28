@@ -44,7 +44,7 @@ FurughiDonish is an intelligent learning platform that adapts to students' pace 
    - **Start Command**: `gunicorn tutorflow.wsgi:application`
 
 5. Add the following environment variables:
-   - `SECRET_KEY`: (generate a secure random string)
+   - `DJANGO_SECRET_KEY`: (generate a secure random string)
    - `DEBUG`: False
    - `OPENAI_API_KEY`: (your OpenAI API key)
    - `GEMINI_API_KEY`: (your Gemini API key)

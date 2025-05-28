@@ -6,8 +6,7 @@ services:
     startCommand: "gunicorn tutorflow.wsgi:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: tutorflow.settings
-      - key: SECRET_KEY
+        value: tutorflow.settings      - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DEBUG
         value: "False"
