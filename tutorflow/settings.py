@@ -9,25 +9,8 @@ import os
 # Load environment variables
 load_dotenv()
 
-# Make sure this matches your API key exactly
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-
-# Add this debug print to verify the key
-print(f"API Key loaded: {'Yes' if OPENAI_API_KEY else 'No'}")
-
-# Add Gemini API key configuration
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-
-# Add validation
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY is not set in environment variables")
-
-# Add debug print to verify the key (remove in production)
-print(f"Gemini API Key loaded: {'Yes' if GEMINI_API_KEY else 'No'}")
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -37,6 +20,19 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+# Make sure this matches your API key exactly
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+# Add Gemini API key configuration
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+
+# Only validate API keys in development
+if DEBUG:
+    print(f"API Key loaded: {'Yes' if OPENAI_API_KEY else 'No'}")
+    print(f"Gemini API Key loaded: {'Yes' if GEMINI_API_KEY else 'No'}")
+    if not GEMINI_API_KEY:
+        print("WARNING: GEMINI_API_KEY is not set in environment variables")
 
 # Update ALLOWED_HOSTS with your domain or IP
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
@@ -99,12 +95,21 @@ WSGI_APPLICATION = 'tutorflow.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Render PostgreSQL database (if DATABASE_URL is available)
+import dj_database_url
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
