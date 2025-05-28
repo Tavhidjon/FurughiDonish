@@ -1,6 +1,38 @@
-.venv
-media
-db.sqlite3
-__pycache__
-*.pyc
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development
 .env
+.venv
+env/
+venv/
+ENV/
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Static files
+staticfiles/
+
+# Media files
+media/
+
+# Log files
+*.log
+
+# Distribution / packaging
+*.egg-info/
+.installed.cfg
+*.egg
+
+# VS Code
+.vscode/
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db

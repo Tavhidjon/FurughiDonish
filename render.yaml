@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: furughidonish
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn tutorflow.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: tutorflow.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: OPENAI_API_KEY
+        sync: false  # This indicates that you'll set this manually in the Render dashboard
+      - key: GEMINI_API_KEY
+        sync: false  # This indicates that you'll set this manually in the Render dashboard
